@@ -1,0 +1,102 @@
+{
+  "age": {
+    "direction": ["increasing"],
+    "lower": [25],
+    "upper": [80],
+    "step": [5],
+    "impute_val": [65],
+    "category": ["age"],
+    "full_name": ["age"],
+    "unit": ["years", "y."]
+  },
+  "crp": {
+    "direction": ["increasing"],
+    "lower": [50],
+    "upper": [500],
+    "impute_val": [25],
+    "step": [20],
+    "category": ["inflam"],
+    "full_name": ["C-reactive protein"],
+    "unit": ["mg/L"]
+  },
+  "plt": {
+    "direction": ["decreasing"],
+    "lower": [0],
+    "upper": [200],
+    "step": [20],
+    "impute_val": [250],
+    "category": ["coag"],
+    "full_name": ["Platelets"],
+    "unit": ["10^9/L"]
+  },
+  "pafi": {
+    "direction": ["decreasing"],
+    "lower": [0],
+    "upper": [450],
+    "step": [50],
+    "impute_val": [450],
+    "category": ["resp"],
+    "full_name": ["PaO2/FiO2"],
+    "unit": ["mmHg"]
+  },
+  "ph": {
+    "direction": ["decreasing"],
+    "lower": [6.5],
+    "upper": [7.4],
+    "step": [0.05],
+    "impute_val": [7.42],
+    "category": ["metabolic"],
+    "full_name": ["pH of blood"],
+    "unit": [""]
+  },
+  "bun": {
+    "direction": ["increasing"],
+    "lower": [15],
+    "upper": [50],
+    "step": [5],
+    "impute_val": [10],
+    "category": ["renal"],
+    "full_name": ["Urea nitrogen"],
+    "unit": ["mg/dL"]
+  },
+  "temp": {
+    "direction": ["increasing"],
+    "lower": [37.5],
+    "upper": [40.5],
+    "step": [0.25],
+    "impute_val": [36.8],
+    "category": ["inflam"],
+    "full_name": ["Temperature"],
+    "unit": ["C", "°C"]
+  },
+  "pco2": {
+    "direction": ["increasing"],
+    "lower": [46],
+    "upper": [86],
+    "step": [2],
+    "impute_val": [40],
+    "category": ["resp"],
+    "full_name": ["Arterial CO2 partial pressure"],
+    "unit": ["mmHg", "mm Hg"]
+  },
+  "resp": {
+    "direction": ["increasing"],
+    "lower": [18],
+    "upper": [36],
+    "step": [2],
+    "impute_val": [12],
+    "category": ["resp"],
+    "full_name": ["Respiratory rate"],
+    "unit": ["insp/min", "/min"]
+  },
+  "gcs": {
+    "direction": ["decreasing"],
+    "lower": [3],
+    "upper": [14],
+    "step": [1],
+    "impute_val": [15],
+    "category": ["cns"],
+    "full_name": ["Glasgow Coma Scale"],
+    "unit": ["points"]
+  }
+}

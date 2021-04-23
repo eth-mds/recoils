@@ -1,0 +1,414 @@
+{
+  "age": {
+    "direction": ["increasing"],
+    "lower": [30],
+    "upper": [80],
+    "step": [5],
+    "category": ["age"],
+    "full_name": ["Age"],
+    "unit": ["years", "y."]
+  },
+  "crp": {
+    "direction": ["increasing"],
+    "lower": [10],
+    "upper": [200],
+    "step": [10],
+    "category": ["inflam"],
+    "full_name": ["C-reactive protein"],
+    "unit": ["mg/L"]
+  },
+  "basos": {
+    "direction": ["decreasing"],
+    "lower": [0],
+    "upper": [0.2],
+    "step": [0.01],
+    "category": ["bone_marrow"],
+    "full_name": ["basophils"],
+    "unit": ["%"]
+  },
+  "bicar": {
+    "direction": ["decreasing"],
+    "lower": [7],
+    "upper": [24],
+    "step": [1],
+    "category": ["unknown"],
+    "full_name": ["bicarbonate"],
+    "unit": ["mEq/L", "mmol/l"]
+  },
+  "bili": {
+    "direction": ["increasing"],
+    "lower": [1],
+    "upper": [30],
+    "step": [1],
+    "category": ["liver"],
+    "full_name": ["total bilirubin"],
+    "unit": ["mg/dL"]
+  },
+  "ca": {
+    "direction": ["decreasing"],
+    "lower": [4.9],
+    "upper": [10.3],
+    "step": [0.2],
+    "category": ["comb"],
+    "full_name": ["calcium"],
+    "unit": ["mg/dL"]
+  },
+  "cai": {
+    "direction": ["decreasing"],
+    "lower": [0.6],
+    "upper": [1.15],
+    "step": [0.1],
+    "category": ["renal"],
+    "full_name": ["calcium ionized"],
+    "unit": ["mmol/L"]
+  },
+  "tco2": {
+    "direction": ["decreasing"],
+    "lower": [7],
+    "upper": [25],
+    "step": [1],
+    "category": ["unknown"],
+    "full_name": ["totcal CO2"],
+    "unit": ["mEq/L"]
+  },
+  "cl": {
+    "direction": ["decreasing"],
+    "lower": [80],
+    "upper": [104],
+    "step": [2],
+    "category": ["renal"],
+    "full_name": ["chloride"],
+    "unit": ["mEq/L", "mmol/l"]
+  },
+  "dbp": {
+    "direction": ["decreasing"],
+    "lower": [20],
+    "upper": [80],
+    "step": [5],
+    "category": ["inflam"],
+    "full_name": ["diastolic blood pressure"],
+    "unit": ["mmHg", "mm Hg"]
+  },
+  "eos": {
+    "direction": ["decreasing"],
+    "lower": [0],
+    "upper": [1],
+    "step": [0.05],
+    "category": ["immune"],
+    "full_name": ["eosinophils"],
+    "unit": ["%"]
+  },
+  "fio2": {
+    "direction": ["increasing"],
+    "lower": [35],
+    "upper": [100],
+    "step": [5],
+    "category": ["resp"],
+    "full_name": ["fraction of inspired oxygen"],
+    "unit": ["%"]
+  },
+  "pafi": {
+    "direction": ["decreasing"],
+    "lower": [0],
+    "upper": [400],
+    "step": [50],
+    "category": ["resp"],
+    "full_name": ["PaO2/FiO2"],
+    "unit": ["%"]
+  },
+  "hr": {
+    "direction": ["increasing"],
+    "lower": [50],
+    "upper": [120],
+    "step": [5],
+    "category": ["cardio"],
+    "full_name": ["heart rate"],
+    "unit": ["bpm", "/min"]
+  },
+  "hct": {
+    "direction": ["decreasing"],
+    "lower": [15],
+    "upper": [30],
+    "step": [1],
+    "category": ["coag2"],
+    "full_name": ["hematocrit"],
+    "unit": ["%"]
+  },
+  "hgb": {
+    "direction": ["decreasing"],
+    "lower": [7],
+    "upper": [10],
+    "step": [0.1],
+    "category": ["coag2"],
+    "full_name": ["hemoglobin"],
+    "unit": ["g/dL"]
+  },
+  "inr_pt": {
+    "direction": ["increasing"],
+    "lower": [1.1],
+    "upper": [4],
+    "step": [0.3],
+    "category": ["coag"],
+    "full_name": ["prothrombin time/international normalized ratio"]
+  },
+  "lact": {
+    "direction": ["increasing"],
+    "lower": [1],
+    "upper": [20],
+    "step": [1],
+    "category": ["metabolic"],
+    "full_name": ["lactate"],
+    "unit": ["mmol/L"]
+  },
+  "lymph": {
+    "direction": ["decreasing"],
+    "lower": [0],
+    "upper": [12],
+    "step": [0.5],
+    "category": ["bone_marrow"],
+    "full_name": ["lymphocytes"],
+    "unit": ["%"]
+  },
+  "mg": {
+    "direction": ["increasing"],
+    "lower": [2],
+    "upper": [4.3],
+    "step": [0.1],
+    "category": ["renal"],
+    "full_name": ["magnesium"],
+    "unit": ["mg/dL"]
+  },
+  "mch": {
+    "direction": ["increasing"],
+    "lower": [30],
+    "upper": [40],
+    "step": [0.1],
+    "category": ["coag2"],
+    "full_name": ["mean cell hemoglobin"],
+    "unit": ["pg"]
+  },
+  "mchc": {
+    "direction": ["decreasing"],
+    "lower": [27.6],
+    "upper": [33.6],
+    "step": [0.3],
+    "category": ["coag2"],
+    "full_name": ["mean corpuscular hemoglobin concentration"],
+    "unit": ["%"]
+  },
+  "mcv": {
+    "direction": ["increasing"],
+    "lower": [90],
+    "upper": [125],
+    "step": [1],
+    "category": ["coag2"],
+    "full_name": ["mean corpuscular volume"],
+    "unit": ["fL"]
+  },
+  "map": {
+    "direction": ["decreasing"],
+    "lower": [40],
+    "upper": [75],
+    "step": [5],
+    "category": ["cardio"],
+    "full_name": ["mean arterial pressure"],
+    "unit": ["mmHg", "mm Hg"]
+  },
+  "neut": {
+    "direction": ["increasing"],
+    "lower": [0],
+    "upper": [80.6],
+    "step": [5],
+    "category": ["bone_marrow"],
+    "full_name": ["neutrophils"],
+    "unit": ["%"]
+  },
+  "o2sat": {
+    "direction": ["decreasing"],
+    "lower": [80],
+    "upper": [100],
+    "step": [1],
+    "category": ["resp"],
+    "full_name": ["oxygen saturation"],
+    "unit": ["%", "% Sat."]
+  },
+  "pco2": {
+    "direction": ["decreasing"],
+    "lower": [16],
+    "upper": [40],
+    "step": [2],
+    "category": ["resp"],
+    "full_name": ["CO2 partial pressure"],
+    "unit": ["mmHg", "mm Hg"]
+  },
+  "po2": {
+    "direction": ["decreasing"],
+    "lower": [55],
+    "upper": [105],
+    "step": [2],
+    "category": ["resp"],
+    "full_name": ["O2 partial pressure"],
+    "unit": ["mmHg", "mm Hg"]
+  },
+  "ph": {
+    "direction": ["decreasing"],
+    "lower": [6.9],
+    "upper": [7.4],
+    "step": [0.2],
+    "category": ["unknown"],
+    "full_name": ["pH of blood"]
+  },
+  "phos": {
+    "direction": ["increasing"],
+    "lower": [3.4],
+    "upper": [12.4],
+    "step": [0.5],
+    "category": ["liver2"],
+    "full_name": ["phosphate"],
+    "unit": ["mg/dL"]
+  },
+  "plt": {
+    "direction": ["decreasing"],
+    "lower": [10],
+    "upper": [150],
+    "step": [5],
+    "category": ["coag"],
+    "full_name": ["platelet count"],
+    "unit": ["K/uL", "G/l"]
+  },
+  "k": {
+    "direction": ["increasing"],
+    "lower": [4],
+    "upper": [8.4],
+    "step": [0.2],
+    "category": ["renal"],
+    "full_name": ["potassium"],
+    "unit": ["mEq/L", "mmol/l"]
+  },
+  "pt": {
+    "direction": ["increasing"],
+    "lower": [14],
+    "upper": [40],
+    "step": [0.5],
+    "category": ["coag2"],
+    "full_name": ["prothrombine time"],
+    "unit": ["sec"]
+  },
+  "ptt": {
+    "direction": ["increasing"],
+    "lower": [40],
+    "upper": [95],
+    "step": [5],
+    "category": ["coag2"],
+    "full_name": ["partial thromboplastin time"],
+    "unit": ["sec"]
+  },
+  "rdw": {
+    "direction": ["increasing"],
+    "lower": [15],
+    "upper": [28],
+    "step": [1],
+    "category": ["unknown"],
+    "full_name": ["erythrocyte distribution width"],
+    "unit": ["%"]
+  },
+  "rbc": {
+    "direction": ["decreasing"],
+    "lower": [1.58],
+    "upper": [3.33],
+    "step": [0.1],
+    "category": ["coag2"],
+    "full_name": ["red blood cell count"],
+    "unit": ["m/uL"]
+  },
+  "resp": {
+    "direction": ["increasing"],
+    "lower": [14],
+    "upper": [30],
+    "step": [2],
+    "category": ["resp"],
+    "full_name": ["respiratory rate"],
+    "unit": ["insp/min", "/min"]
+  },
+  "na": {
+    "direction": ["decreasing"],
+    "lower": [115],
+    "upper": [140],
+    "step": [2],
+    "category": ["renal"],
+    "full_name": ["sodium"],
+    "unit": ["mEq/L", "mmol/l"]
+  },
+  "sbp": {
+    "direction": ["decreasing"],
+    "lower": [70],
+    "upper": [120],
+    "step": [5],
+    "category": ["cardio"],
+    "full_name": ["systolic blood pressure"],
+    "unit": ["mmHg", "mm Hg"]
+  },
+  "bun": {
+    "direction": ["increasing"],
+    "lower": [15],
+    "upper": [50],
+    "step": [5],
+    "category": ["renal"],
+    "full_name": ["blood urea nitrogen"],
+    "unit": ["mg/dL"]
+  },
+  "wbc": {
+    "direction": ["increasing"],
+    "lower": [10],
+    "upper": [35],
+    "step": [1],
+    "category": ["immune"],
+    "full_name": ["white blood cell count"],
+    "unit": ["K/uL", "G/l"]
+  },
+  "temp": {
+    "direction": ["increasing"],
+    "lower": [37.5],
+    "upper": [40.5],
+    "step": [0.25],
+    "category": ["immune"],
+    "full_name": ["temperature"],
+    "unit": ["C", "°C"]
+  },
+  "alb": {
+    "direction": ["decreasing"],
+    "lower": [0],
+    "upper": [3.4],
+    "step": [0.2],
+    "category": ["unknown"],
+    "full_name": ["albumin"],
+    "unit": ["g/dL"]
+  },
+  "ck": {
+    "direction": ["increasing"],
+    "lower": [200],
+    "upper": [500],
+    "step": [25],
+    "category": ["cardio"],
+    "full_name": ["creatine kinase"],
+    "unit": ["IU/L", "U/l"]
+  },
+  "etco2": {
+    "direction": ["decreasing"],
+    "lower": [10],
+    "upper": [35],
+    "step": [2],
+    "category": ["resp"],
+    "full_name": ["endtidal CO2"],
+    "unit": ["mmHg", "mm Hg"]
+  },
+  "safi": {
+    "direction": ["decreasing"],
+    "lower": [0],
+    "upper": [400],
+    "step": [50],
+    "category": ["resp"],
+    "full_name": ["SaO2/FiO2"],
+    "unit": ["%"]
+  }
+}

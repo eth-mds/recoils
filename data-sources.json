@@ -1,0 +1,90 @@
+[
+  {
+    "name": "covid19",
+    "id_cfg": {
+      "patient": {
+        "id": "hash_patient_id",
+        "position": 1,
+        "start": "hospital_admission_timestamp",
+        "end": "death_timestamp",
+        "table": "episodes"
+      },
+      "icustay": {
+        "id": "episode_id",
+        "position": 2,
+        "start": "admission_timestamp",
+        "end": "discharge_timestamp",
+        "table": "episodes"
+      }
+    },
+    "tables": {
+      "admissions": {
+        "defaults": {
+          "index_var": "admission_timestamp",
+          "time_vars": ["admission_timestamp", "discharge_timestamp", "death_timestamp"]
+        }
+      },
+      "episodes": {
+        "defaults": {
+          "index_var": "admission_timestamp",
+          "time_vars": ["admission_timestamp", "discharge_timestamp", "hospital_admission_timestamp",
+          "hospital_discharge_timestamp", "death_timestamp"]
+        }
+      },
+      "intubations": {
+        "defaults": {
+          "index_var": "start_intubation",
+          "time_vars": ["start_intubation", "end_intubation"],
+          "val_var": "successful_extubation"
+        }
+      },
+      "single_timestamp": {
+        "defaults": {
+          "index_var": "effective_timestamp",
+          "time_vars": "effective_timestamp",
+          "val_var": "numerical_value"
+        },
+        "partitioning": {
+          "col": "pacmed_subname",
+          "breaks": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+        }
+      },
+      "range_measurements": {
+        "defaults": {
+          "index_var": "start_timestamp",
+          "time_vars": ["start_timestamp", "end_timestamp"],
+          "val_var": "numerical_value"
+        }
+      },
+      "medications": {
+        "defaults": {
+          "index_var": "start_timestamp",
+          "val_var": "total_dose",
+          "time_vars": ["start_timestamp", "end_timestamp"]
+        }
+      },
+      "parameters": {
+        "defaults": {
+          "val_var": "pacmed_subname"
+        }
+      },
+      "outcomes": {
+        "defaults": {
+          "val_var": "mortality"
+        }
+      },
+      "comorbidities": {
+        "defaults": {
+          "val_var": "diabetes"
+        }
+      },
+      "diagnoses": {
+        "defaults": {
+          "index_var": "effective_timestamp",
+          "time_vars": "effective_timestamp",
+          "val_var": "icd10"
+        }
+      }
+    }
+  }
+]
