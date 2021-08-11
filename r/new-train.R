@@ -196,10 +196,68 @@ scaling_factor <- function(X, y, ids, by_hosp = FALSE, seed = 7L, nfolds = 5L) {
 
   # interactive
   model_ind <- as.integer(readline("choose model: "))
+  cat("Intercept", res$glmnet.fit$a0[model_ind])
   beta <- res$glmnet.fit$beta[, model_ind]
   score <- round(beta * 4)
 
   return(list(score = score, beta = beta, dev = dev,
               val = setdiff(id_col(ids), dev)))
 
+}
+
+calib_fit <- function(bdat, plot = TRUE, nboot = 1000L) {
+  
+  for (i in seq_len(nbt)) {
+    
+    idx <- sample(seq_len(nrow(bdat)), nrow(bdat), replace = TRUE)
+    tmp <- bdat[idx]
+    bplot <- rbind(bplot, tmp[, list(mort = mean(death)), by = "naps"])
+    
+  }
+  
+  if (plot) bplot[naps > 16, naps := 16]
+  
+  bar <- bplot[, list(y = mean(mort), ymin = mean(mort) - 1.96*sd(mort),
+                      ymax = mean(mort) + 1.96*sd(mort)), by = "naps"]
+  
+  oor <- bar[ymin < 0 | ymax > 1]$naps
+  bar <- bar[!(naps %in% oor)]
+  if (length(oor) > 0L) {
+    bar <- rbind(
+      bar,
+      bplot[naps %in% oor, 
+            list(y = mean(mort), ymin = quantile(mort, probs = 0.025),
+                 ymax = quantile(mort, probs = 0.975)), by = "naps"]
+    )
+  }
+  
+  if (plot) {
+    
+    ggplot(bar, aes(x = naps, y = y)) +
+      geom_col(color = "black", fill = "white") +
+      geom_errorbar(aes(ymin = ymin, ymax = ymax, width = .2)) +
+      theme_bw() +
+      geom_line(
+        data = data.table(naps = (seq_len(nrow(bar))-1), 
+                          fit = expit((seq_len(nrow(bar))-1)/4 - 2.9)),
+        aes(x = naps, y = fit), color = "red", size = 1          
+      ) +
+      geom_point(
+        data = data.table(naps = (seq_len(nrow(bar))-1), 
+                          fit = expit((seq_len(nrow(bar))-1)/4 - 2.9)),
+        aes(x = naps, y = fit), color = "red", size = 2          
+      ) +
+      scale_x_continuous(breaks = 0:16, labels = c(0:15, "> 15")) +
+      scale_y_continuous(labels = scales::percent) +
+      xlab("RECOILS") + ylab("Mortality")
+    
+  } else {
+    
+    bar[, empirical := paste0(round(100*y), " (",round(100*ymin) ,"-", 
+                              round(100*ymax), ")")]
+    bar[, fml := round(100*expit(naps/4 - 2.9))]
+    bar <- setorderv(bar, cols = "naps")
+    bar[, c("naps", "empirical", "fml"), with=FALSE]
+  }
+  
 }

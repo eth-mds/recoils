@@ -9,10 +9,12 @@ library(plyr)
 r_dir <- file.path(rprojroot::find_root(".git/index"), "r")
 invisible(lapply(list.files(r_dir, full.names = TRUE), source))
 
-src <- c("covid19")
-cohorts <- ifelse(src == "covid19", 
-                  list(config("8-of-10")[["covid19"]]), 
-                  list(mimic_demo$icustays$icustay_id))
+src <- c("covid19", "covid19")
+pids <- config("8-of-10")[["covid19"]]
+hsplit <- get_config("hospital-split")
+hosp <- load_concepts("hosp", "covid19", patient_ids = pids)
+cohorts <- list(id_col(hosp[hosp %in% hsplit$dev]), 
+                id_col(hosp[hosp %in% hsplit$val]))
 names(cohorts) <- src
 
 vars <- list(

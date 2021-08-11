@@ -11,7 +11,8 @@ cncpt <- c("alkaline", "^basophils_", "^bicar", "^bilirubin_[tu]",
   "^calcium_[bt]", "^chloride", "^creatinine_[bu]", "bp_diastolic", "^eosinophils_",
   "^fio2", "heart_rate_[mu]", "hemato", "^hemoglobin_", "_inr", "^lactate_[abmuw]",
   "^lymphocytes_", "^magnes", "bp_mean", "^neutrophils_",
-  "^so2_", "^pco2_[au]", "po2_arterial|po2_unspecified$", "^ph_", "^phosphate_", "^thrombocytes_[bu]",
+  "^so2_", "^pco2_[au]", "po2_arterial|po2_unspecified$", "^ph_[abu]",
+  "^ph_[cmv]", "^phosphate_", "^thrombocytes_[bu]",
   "^potass", "^prothromb", "^erythrocytes", "^respiratory_rate_",
   "^sodium", "bp_systolic", "^ureum_[bu]", "^leuko", "temp", "^albumin_",
   "^creatine_kin", "^end_tidal", "^crp_", "^gcs_eye", "^gcs_motor", "^gcs_verbal",
@@ -22,7 +23,7 @@ cncpt <- c("alkaline", "^basophils_", "^bicar", "^bilirubin_[tu]",
 dict_names <- c("alp", "basos", "bicar", "bili", "ca", "cl", "crea", "dbp",
   "eos", "fio2", "hr", "hct", "hgb", "inr_pt", "lact", "lymph",
   "mg", "map", "neut", "o2sat", "pco2",
-  "po2", "ph", "phos", "plt", "k", "pt", "rbc", "resp",
+  "po2", "ph", "ph_ven", "phos", "plt", "k", "pt", "rbc", "resp",
   "na", "sbp", "bun", "wbc", "temp", "alb", "ck", "etco2", "crp",
   "egcs", "mgcs", "vgcs", "tgcs", "d_dim", "vent_ratio", "lung_comp",
   "dead_space", "ptt", "fgn", "prcl", "ldh", "sofa_total")
@@ -398,6 +399,5 @@ dict[["sofa2"]] <- list(
   callback = "sofa_score2",
   class = "rec_cncpt"
 )
-
 
 jsonlite::write_json(dict, file.path("~/config/concept-dict.json"), pretty = T)

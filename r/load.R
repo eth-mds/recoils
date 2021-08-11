@@ -42,21 +42,22 @@ load_data <- function(src, cfg, lwr, upr, cohort = NULL, impute_vals = T, cts = 
   }
 
   load_from <- FALSE
+  file_path <- "/home/drago/dat1.RData"
 
-  if (file.exists("/home/drago/dat.RData")) {
+  if (file.exists(file_path)) {
 
-    load("/home/drago/dat.RData")
+    load(file_path)
     if (!all(names(cfg) %in% names(dat))) {
 
       dat <- load_concepts(names(cfg), src, aggregate = aggreg_fun(cfg))
-      save(dat, file = "/home/drago/dat.RData")
+      save(dat, file = file_path)
 
     }
 
   } else {
 
     dat <- load_concepts(names(cfg), src, aggregate = aggreg_fun(cfg))
-    if (src == "covid19") save(dat, file = "/home/drago/dat.RData")
+    if (src == "covid19") save(dat, file = file_path)
 
   }
 

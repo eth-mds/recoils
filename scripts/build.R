@@ -7,6 +7,7 @@ library(ranger)
 library(magrittr)
 library(officer)
 library(glmnet)
+library(data.table)
 
 r_dir <- file.path(rprojroot::find_root(".git/index"), "r")
 invisible(lapply(list.files(r_dir, full.names = TRUE), source))
@@ -38,9 +39,9 @@ if (dev_val) {
   ids <- design[["ids"]]
   des <- design[["design"]]
 
-  dev_info <- scaling_factor(X, y, ids, by_hosp = TRUE, seed = 0.7)
+  dev_info <- scaling_factor(X, y, ids, by_hosp = TRUE, seed = 0.7) # 24L
   
-  score <- dev_info[["score"]]
+  score <- dev_info[["score"]] 
   score[score < 0] <- 0
   attr(score, "concept") <- gsub("\\..*", "", names(score))
   attr(score, "threshold") <- 
@@ -77,6 +78,7 @@ models <- c("four_c", "sofa2", "saps_3", "age", "death")
 if (dev_val) {
 
   models <- c(models, "naps")
+  set.seed(123)
   eval_dat <- list(
     des[[1L]][get(id_vars(des[[1L]])) %in% dev_info[["dev"]], models, with=FALSE],
     des[[1L]][get(id_vars(des[[1L]])) %in% dev_info[["val"]], models, with=FALSE]
@@ -118,6 +120,28 @@ ggsave(filename = file.path(r_dir, "..", "paper", "Figure1.tiff"),
   
   ggsave(filename = file.path(r_dir, "..", "paper", "Figure2.tiff"),
          width = 14, height = 8)
+  
+  # calibration exploration
+  expit <- function(x) exp(x) / (1 + exp(x))
+  res[, fit := expit(-2.886 + naps/4)]
+  res[, development := get(id_var(res)) %in% dev_info[["dev"]]]
+  plot(res$fit, res$mort)
+  
+  
+  nbt <- 100
+  set.seed(123)
+  bplot <- NULL
+  bdat <- res[, c("naps", "death"), with=FALSE]
+  calib_fit(bdat)
+  ggsave(filename = file.path(r_dir, "..", "paper", "eFigure2.tiff"),
+         width = 10, height = 6)
+  
+  cb_fit <- calib_fit(bdat, plot = FALSE)
+  cb <- read_docx()
+  cb <- cb %>%
+    body_add_table(cb_fit, style = "table_template")
+  print(cb, target = file.path(r_dir, "..", "paper", 
+                                   "Supplementary_Table4.docx"))
 }
 
 ### Beta coefficient
@@ -134,7 +158,35 @@ ggsave(filename = file.path(r_dir, "..", "paper", "Figure1.tiff"),
   my_doc <- my_doc %>%
     body_add_table(coef, style = "table_template")
   
-  print(my_doc, target = file.path(r_dir, "../..", "naps-res", 
+  print(my_doc, target = file.path(r_dir, "..", "paper", 
                                    "Supplementary_Table3.docx"))
   
 }
+
+### Stratify on wave and sex
+
+# sex
+# config("female",
+#        value = list(id_col(load_concepts("sex", "covid19")[sex == "Female"])))
+fem <- config("female")[[1L]]
+sx_split <- list(
+  des[[1L]][get(id_vars(des[[1L]])) %in% fem, c("naps", "death"), with=FALSE],
+  des[[1L]][!(get(id_vars(des[[1L]])) %in% fem), c("naps", "death"), with=FALSE]
+)
+
+p_sex <- eval_strat(sx_split, lab_1 = "Female", lab_2 = "Male")
+
+# wave
+# config("first-wave", 
+#        value = list(id_col(load_concepts("wave", "covid19")[wave == "1st"])))
+first <- config("first-wave")[[1L]]
+wav_split <- list(
+  des[[1L]][get(id_vars(des[[1L]])) %in% first, c("naps", "death"), with=FALSE],
+  des[[1L]][!(get(id_vars(des[[1L]])) %in% first), c("naps", "death"), with=FALSE]
+)
+
+p_wav <- eval_strat(wav_split)
+
+aux <- cowplot::plot_grid(p_sex, p_wav, ncol = 2L)
+ggsave(filename = file.path(r_dir, "..", "paper", "eFigure1.tiff"),
+       width = 10, height = 6)

@@ -58,7 +58,8 @@ eval_fxtp <- function(test_24, score) {
 
 }
 
-component_plots <- function(dat, data_src, split_waves = FALSE, res_type = "plot") {
+component_plots <- function(dat, data_src, split_waves = FALSE, 
+                            res_type = "plot") {
 
   if (split_waves) dat <- merge(dat, load_concepts("wave", data_src), all.x = T)
 
@@ -107,11 +108,13 @@ component_plots <- function(dat, data_src, split_waves = FALSE, res_type = "plot
         ret <- auc(eval)
         ret <- ret[curvetypes == "ROC"]
         ret <- ret[, c("modnames", "aucs"), with = FALSE]
-        ret <- data.table::setnames(ret, c("modnames", "aucs"), c("feature", "AUROC"))
+        ret <- data.table::setnames(ret, c("modnames", "aucs"), 
+                                    c("feature", "AUROC"))
 
         return(ret)
 
-      } else return(autoplot(eval, "ROC") + geom_line(size = 2) + ggtitle(plot.title))
+      } else return(autoplot(eval, "ROC") + geom_line(size = 2) + 
+                      ggtitle(plot.title))
 
     }
 
@@ -134,7 +137,8 @@ component_plots <- function(dat, data_src, split_waves = FALSE, res_type = "plot
 
     sys <- names(grid)[i]
 
-    plots[[data_src]][[sys]] <- sys_perf(dat, split_waves = split_waves, res_type = res_type)
+    plots[[data_src]][[sys]] <- sys_perf(dat, split_waves = split_waves, 
+                                         res_type = res_type)
 
   }
 

@@ -162,12 +162,18 @@ merge_cols <- function(x, y, ...) {
   res
 }
 
-eval_at <- function(eval_dat, type, boot = T) {
+eval_at <- function(eval_dat, type, nboot = 1000L, object = FALSE) {
 
   if (is.list(eval_dat) & !data.table::is.data.table(eval_dat)) {
-
+    
+    if (object) {
+      return(lapply(eval_dat, eval_at, type = type, nboot = nboot, 
+                    object = object))
+    }
+    
     return(cowplot::plot_grid(
-        plotlist = lapply(eval_dat, eval_at, type = type, boot = boot),
+        plotlist = lapply(eval_dat, eval_at, type = type, nboot = nboot, 
+                          object = object),
         ncol = length(eval_dat)
       )
     )
@@ -181,11 +187,10 @@ eval_at <- function(eval_dat, type, boot = T) {
                 sofa2 = "SOFA", saps_3 = "SAPS-III")
   methods_full <- lapply(1:length(methods), function(i) trans[[methods[i]]])
 
-  if (boot) {
+  if (nboot > 0L) {
 
     scores <- list()
     labels <- list()
-    nboot <- 1000
 
     for(bt in 1:nboot) {
 
@@ -208,7 +213,9 @@ eval_at <- function(eval_dat, type, boot = T) {
     modnames = methods[1:length(scores)]
 
   }
-
+  
+  if (object) return(list(scores = scores, labels = labels, dsids = dsids,
+                          modnames = modnames))
   eval <- evalmod(scores = scores, labels = labels, dsids = dsids,
                   modnames = modnames)
 
@@ -252,11 +259,13 @@ eval_at <- function(eval_dat, type, boot = T) {
                      c(mean(x), mean(x) - 1.96 * sd(x), mean(x) + 1.96 * sd(x))
 
                    }, simplify = F)
-
-  aurocs <- as.data.frame(Reduce(rbind, aurocs), row.names = methods_full)
+  
+  if (length(methods_full) == 1L) {
+    aurocs <- as.data.frame(t(Reduce(rbind, aurocs)), row.names = methods_full)
+  } else {
+    aurocs <- as.data.frame(Reduce(rbind, aurocs), row.names = methods_full)
+  }
   names(aurocs) <- c("auc", "auc.min", "auc.max", "sd")
-
-
 
   if (length(baseline) == 1L) {
 
@@ -273,11 +282,16 @@ eval_at <- function(eval_dat, type, boot = T) {
 
   }
 
-  print(aurocs$pair.pvals)
+  print(aurocs)
+  print(auprcs)
 
   roc_labels <- paste0(methods_full, " (", round(aurocs$auc, 2), ")")
-
-  auprcs <- as.data.frame(Reduce(rbind, auprcs), row.names = methods_full)
+  
+  if (length(methods_full) == 1L) {
+    auprcs <- as.data.frame(t(Reduce(rbind, auprcs)), row.names = methods_full)
+  } else {
+    auprcs <- as.data.frame(Reduce(rbind, auprcs), row.names = methods_full)
+  }
   names(auprcs) <- c("auc", "auc.min", "auc.max")
 
   pr_labels <- paste0(methods_full, " (", round(auprcs$auc, 2), ")")
@@ -319,8 +333,41 @@ eval_at <- function(eval_dat, type, boot = T) {
           legend.background = element_blank(),
           legend.box.background = element_rect(colour = "black")) +
     scale_color_discrete(labels = pr_labels)
-
+  
   cowplot::plot_grid(total_roc, total_prc, ncol = 1L) +
     theme(plot.background = element_rect(color = "black"))
 
+}
+
+eval_strat <- function(eval_dat, type, nboot = 1000L, lab_1 = "1st wave",
+                       lab_2 = "2nd wave") {
+  
+  specify_decimal <- function(x, k) trimws(format(round(x, k), nsmall=k))
+  res <- eval_at(eval_dat, nboot = nboot, object = TRUE)
+  
+  res[[1]][["dsids"]] <- res[[1]][["dsids"]] + nboot
+  res[[1]][["modnames"]] <- gsub("naps", "RECOILS", paste(res[[1]][["modnames"]], 
+                                                          lab_1))
+  res[[2]][["modnames"]] <- gsub("naps", "RECOILS", paste(res[[2]][["modnames"]], 
+                                                          lab_2))
+  
+  res <- Map(c, res[[1]], res[[2]])
+  eval <- evalmod(scores = res[["scores"]], labels = res[["labels"]], 
+                  dsids = res[["dsids"]], modnames = res[["modnames"]],
+                  calc_avg = TRUE, cb_alpha = 0.05)
+  aucc <- data.table(sc = res[["modnames"]], roc = auc(eval)$aucs[c(T, F)])
+  aucc <- aucc[, list(mean(roc) - 1.96 * sd(roc), mean(roc) + 1.96 * sd(roc)), 
+               by = "sc"]
+  labels <- paste0(
+    aucc$sc, " (", specify_decimal(aucc$V1, 3), "-", specify_decimal(aucc$V2, 3), ")"
+  )
+  
+  autoplot(eval, "ROC", show_cb = TRUE) +
+    ggtitle("ROC curves at 24 hours into ICU") +
+    theme(legend.position = c(0.625, 0.15),
+          legend.text = element_text(size=10),
+          legend.background = element_blank(),
+          legend.box.background = element_rect(colour = "black")) +
+    scale_color_discrete(labels = labels)
+  
 }
