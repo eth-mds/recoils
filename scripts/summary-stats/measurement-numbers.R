@@ -15,7 +15,7 @@ type <- "config"
 cohort <- config("8-of-10")[[src]]
 cfg <- config("features3")
 
-load("~/dat.RData")
+load("~/dat1.RData")
 
 res <- dat[get(id_var(dat)) %in% cohort &
            get(index_var(dat)) > hours(-24L) &

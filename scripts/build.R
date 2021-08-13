@@ -108,33 +108,18 @@ ggsave(filename = file.path(r_dir, "..", "paper", "Figure1.tiff"),
   
   brier <- mean((res$mort - res$death)^2)
   cat("Brier score is", brier, "\n")
-  
-  cb <- unique(res[, c("mort", "naps"), with = FALSE])
-  
-  ggplot(cb, aes(x = naps, y = mort)) +
-    geom_point() + geom_line() + geom_smooth() +
-    #geom_smooth(aes(x = naps, y = mort_bw, color = wave)) + 
-    theme_minimal() + 
-    ylab("Mortality rate") + xlab("RECOILS") + 
-    ggtitle("Mortality rate per score level")
-  
-  ggsave(filename = file.path(r_dir, "..", "paper", "Figure2.tiff"),
-         width = 14, height = 8)
-  
-  # calibration exploration
+
   expit <- function(x) exp(x) / (1 + exp(x))
   res[, fit := expit(-2.886 + naps/4)]
   res[, development := get(id_var(res)) %in% dev_info[["dev"]]]
-  plot(res$fit, res$mort)
-  
   
   nbt <- 100
   set.seed(123)
   bplot <- NULL
   bdat <- res[, c("naps", "death"), with=FALSE]
-  calib_fit(bdat)
-  ggsave(filename = file.path(r_dir, "..", "paper", "eFigure2.tiff"),
-         width = 10, height = 6)
+  calib_fit(bdat) + ggtitle("Mortality rate per score level")
+  ggsave(filename = file.path(r_dir, "..", "paper", "Figure2.tiff"),
+         width = 10, height = 6.5)
   
   cb_fit <- calib_fit(bdat, plot = FALSE)
   cb <- read_docx()

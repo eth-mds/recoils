@@ -356,10 +356,10 @@ eval_strat <- function(eval_dat, type, nboot = 1000L, lab_1 = "1st wave",
                   dsids = res[["dsids"]], modnames = res[["modnames"]],
                   calc_avg = TRUE, cb_alpha = 0.05)
   aucc <- data.table(sc = res[["modnames"]], roc = auc(eval)$aucs[c(T, F)])
-  aucc <- aucc[, list(mean(roc) - 1.96 * sd(roc), mean(roc) + 1.96 * sd(roc)), 
+  aucc <- aucc[, list(mean(roc), 1.96 * sd(roc)), 
                by = "sc"]
   labels <- paste0(
-    aucc$sc, " (", specify_decimal(aucc$V1, 3), "-", specify_decimal(aucc$V2, 3), ")"
+    aucc$sc, " (", specify_decimal(aucc$V1, 3), " ± ", specify_decimal(aucc$V2, 3), ")"
   )
   
   autoplot(eval, "ROC", show_cb = TRUE) +
