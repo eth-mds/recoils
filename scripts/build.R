@@ -94,7 +94,7 @@ if (dev_val) {
 deval <- eval_at(eval_dat, type = type)
 add_titles(deval)
 ggsave(filename = file.path(r_dir, "..", "paper", "Figure1.tiff"),
-       width = 10, height = 10)
+       width = 10, height = 10, bg = "white")
 
 ### do the calibration plot
 {

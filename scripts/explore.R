@@ -92,9 +92,32 @@ if (res_type != "tabular") {
   
   obj <- merge(tbl, rf_imp, by = "feature", all = T)
   
+  # add range, increase/decrease and imputation value
+  rng <- paste0(
+    sapply(cfg, `[[`, "lower"), "-",
+    sapply(cfg, `[[`, "upper")
+  )
+  inc <- paste(
+    (-1)^(sapply(cfg, `[[`, "direction") == "decreasing") * 
+      sapply(cfg, `[[`, "step")
+  )
+  ridi_names <- sapply(names(cfg), function(x) {
+    if(!is.null(cfg[[x]][["full_name"]])) return(cfg[[x]][["full_name"]])
+    return(x)
+  })
+  imp <- sapply(cfg, `[[`, "impute_val")
+  unt <- sapply(cfg, function(x) x[["unit"]][[1L]])
+  ridi <- data.table::data.table(feature = ridi_names, rng = rng, inc = inc,
+                                 imp = imp, unt = unt)
+  
+  obj <- merge(obj, ridi, by = "feature")
+  
   obj[["AUROC"]] <- round(obj[["AUROC"]], 3)
   obj[["importance"]] <- round(obj[["importance"]], 2)
-  obj[["feature"]] <- stringr::str_to_sentence(obj[["feature"]])
+  obj[["feature"]] <- paste0(
+    stringr::str_to_sentence(obj[["feature"]]), " (",
+    obj[["unt"]], ")"
+  )
   setorderv(obj, c("AUROC", "importance"), -1L)
   
   my_doc <- read_docx()

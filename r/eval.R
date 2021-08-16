@@ -359,7 +359,8 @@ eval_strat <- function(eval_dat, type, nboot = 1000L, lab_1 = "1st wave",
   aucc <- aucc[, list(mean(roc), 1.96 * sd(roc)), 
                by = "sc"]
   labels <- paste0(
-    aucc$sc, " (", specify_decimal(aucc$V1, 3), " ± ", specify_decimal(aucc$V2, 3), ")"
+    aucc$sc, " (", specify_decimal(aucc$V1, 3), " ± ", 
+    specify_decimal(aucc$V2, 3), ")"
   )
   
   autoplot(eval, "ROC", show_cb = TRUE) +

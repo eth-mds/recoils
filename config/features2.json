@@ -265,7 +265,8 @@
     "step": [0.05],
     "impute_val": [7.42],
     "category": ["metabolic"],
-    "full_name": ["pH of blood"]
+    "full_name": ["pH of blood"],
+    "unit": [""]
   },
   "phos": {
     "direction": ["increasing"],
